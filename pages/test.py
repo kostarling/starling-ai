@@ -7,12 +7,12 @@ async def main():
     await runware.connect()
 
     request_image = IImageInference(
-    positivePrompt=" Write beautiful text Book Cover",
+    positivePrompt="Write beautiful text Book Cover",
     model="runware:100@1",
     numberResults=1,
     negativePrompt="cloudy, rainy",
     useCache=False,
-    height=704,
+    height=768,
     width=512,
     )
 
@@ -25,7 +25,7 @@ async def main():
     return image.imageURL
 
 # Синхронный вызов асинхронной функции через asyncio.run()
-if st.button('Generate Book Cover'):
+if st.button('Запустить асинхронную функцию'):
     result = asyncio.run(main())
     st.image(result)
     st.write(result)
