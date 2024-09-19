@@ -7,8 +7,8 @@ RUNWARE_API_KEY = st.secrets["RUNWARE_API_KEY"]
 
 col1, col2 = st.columns(2)
 
-design = col1.text_input(label="book cover design", value="flovers and birds")
-cover_text = col2.text_input(label="book cover text", value="flovers and birds")
+design = col1.text_input(label="book cover design", value="Love, Death, and Robots")
+cover_text = col2.text_input(label="book cover text", value="Love, Death, and Robots")
 
 
 
