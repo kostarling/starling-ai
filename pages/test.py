@@ -1,31 +1,39 @@
 import streamlit as st
 import asyncio
-from runware import Runware, IImageInference
+from st_app_lib import txt2img, dna_gpt
+from prompts import *
 
-async def main():
-    runware = Runware(api_key=st.secrets["RUNWARE_API_KEY"])
-    await runware.connect()
+RUNWARE_API_KEY = st.secrets["RUNWARE_API_KEY"]
 
-    request_image = IImageInference(
-    positivePrompt="Write beautiful text Book Cover",
-    model="runware:100@1",
-    numberResults=1,
-    negativePrompt="cloudy, rainy",
-    useCache=False,
-    height=768,
-    width=512,
-    )
+col1, col2 = st.columns(2)
 
-    images = await runware.imageInference(requestImage=request_image)
-    for image in images:
-        print(f"Image URL: {image.imageURL}")
-        #st.text(f"Image URL: {image.imageURL}")
+design = col1.text_input(label="book cover design", value="flovers and birds")
+cover_text = col2.text_input(label="book cover text", value="flovers and birds")
 
-        #st.image(image.imageURL)
-    return image.imageURL
 
-# Синхронный вызов асинхронной функции через asyncio.run()
-if st.button('Запустить асинхронную функцию'):
-    result = asyncio.run(main())
-    st.image(result)
-    st.write(result)
+
+Generate_Book_button = st.button('Generate Book Cover')
+
+
+col_cover_im, col_description = st.columns(2)
+
+cover_im = col_cover_im.image("https://im.runware.ai/image/ws/0.5/ii/9c3f8e19-e661-446b-ae74-356cbd6e8dc8.jpg")
+
+description = col_description.markdown(BOOK_DESCRIPTION)
+
+Prompt = f"""
+            Book cover design with {design} and text in center "{cover_text}"
+            """
+description_prompt = f"""
+            Write markdown KDP book Title, Subtitle and descriptin about {design} and "{cover_text}"
+            Example:
+            {BOOK_DESCRIPTION}
+            """
+
+if Generate_Book_button:
+    result = asyncio.run(txt2img(RUNWARE_API_KEY, Prompt))
+    cover_im.image(result)
+    description.markdown(dna_gpt(description_prompt))
+
+    
+    
