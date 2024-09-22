@@ -1,2 +1,4 @@
 streamlit
 runware
+opencv-python-headless
+moviepy
