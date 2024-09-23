@@ -12,7 +12,8 @@ import requests
 RUNWARE_API_KEY = st.secrets["RUNWARE_API_KEY"]
 
 Short_Title = st.text_input(label="YT Short Title", value="Thor, the mighty god of Asgard")
-Generate_button = st.button('Generate YT Short')
+
+Generate_button = st.button('Generate YT Short Video')
 
 if Generate_button:
     Short_Story = dna_gpt(f"Tell a shocking fact short story in 120 words about: {Short_Title}. Start with the words Did you know that")
@@ -22,10 +23,24 @@ if Generate_button:
     asyncio.run(tts(Short_Story))
     st.audio(".temp/test.mp3")
 
+
+    YTStitle = dna_gpt(f"Make a good title for Youtube short video about {Short_Story}")
+    YTSdescription = dna_gpt(f"Make a good description for Youtube short video about {Short_Story}")
+    YTSkeywords = dna_gpt(f"Make a 10 keywords for Youtube short video about {Short_Story}, write only coma separated text.")
+    "TITLE"
+    st.code(YTStitle, language="python")
+    "DESCRIPTION"
+    st.code(YTSdescription, language="python")
+    "KEYWORDS"
+    st.code(YTSkeywords, language="python")
+
+ 
+
+
     Prompt = dna_gpt(f"Make a good promt (max 70 tokens) for drawing fotorealistic HD 4K with epic detailed background, medieval: {Short_Story}")
     imagesURLs = asyncio.run(txt2img_shorts(RUNWARE_API_KEY, Prompt))
     st.image(imagesURLs, width=50)
-    
+            
 
     audio_clip = AudioFileClip(f".temp/test.mp3").volumex(1.2)
 
@@ -41,4 +56,4 @@ if Generate_button:
     final_clip = concatenate_videoclips(zoom_imgs, method='compose').set_audio(final_audio_clip)
     final_clip.write_videofile(f'.temp/test.mp4', fps=24)
 
-    st.video('.temp/test.mp4')
+    st.video('.temp/test.mp4', start_time=2)
