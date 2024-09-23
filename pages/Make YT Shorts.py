@@ -22,9 +22,9 @@ if Generate_button:
     asyncio.run(tts(Short_Story))
     st.audio(".temp/test.mp3")
 
-    Prompt = dna_gpt(f"Make a good promt (max 70 tokens) for drawing fotorealistic HD 4K with epic detailed background, medieval: {Short_Title}")
+    Prompt = dna_gpt(f"Make a good promt (max 70 tokens) for drawing fotorealistic HD 4K with epic detailed background, medieval: {Short_Story}")
     imagesURLs = asyncio.run(txt2img_shorts(RUNWARE_API_KEY, Prompt))
-    st.image(imagesURLs)
+    st.image(imagesURLs, width=50)
     
 
     audio_clip = AudioFileClip(f".temp/test.mp3").volumex(1.2)
@@ -35,7 +35,10 @@ if Generate_button:
 
     imgs = [Image.open(requests.get(iu, stream=True).raw) for iu in imagesURLs]
     pil_imgs_im = [ImageClip(np.array(im)).set_duration(audio_clip.duration / len(imgs)) for im in imgs]
-    final_clip = concatenate_videoclips(pil_imgs_im, method='compose').set_audio(final_audio_clip)
-    final_clip.write_videofile(f'.temp/test.mp4', fps=3)
+    position = ['center', 'left', 'right', 'topleft', 'topright'] #['center', 'bottom', 'left', 'right', 'topleft', 'topright', 'bottomleft', 'bottomright']
+    zoom_imgs = [Zoom(icic.set_fps(24), mode=choice(["in","out"]),position=choice(position),speed=4) for icic in pil_imgs_im]
+    zoom_imgs = [zi.fadein(.2).fadeout(.2) for zi in zoom_imgs]
+    final_clip = concatenate_videoclips(zoom_imgs, method='compose').set_audio(final_audio_clip)
+    final_clip.write_videofile(f'.temp/test.mp4', fps=24)
 
     st.video('.temp/test.mp4')

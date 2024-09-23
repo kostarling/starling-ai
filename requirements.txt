@@ -3,3 +3,4 @@ runware
 opencv-python-headless
 moviepy
 edge_tts
+numpy
