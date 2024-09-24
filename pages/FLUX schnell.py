@@ -2,7 +2,7 @@
 import streamlit as st
 import requests
 HF = st.secrets["HF"]
-API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-dev"
+API_URL = "https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell"
 headers = {"Authorization": f"Bearer {HF}"}
 
 def query(payload):
