@@ -16,7 +16,7 @@ Short_Title = st.text_input(label="YT Short Title", value="Thor, the mighty god 
 Generate_button = st.button('Generate YT Short Video')
 
 if Generate_button:
-    Short_Story = dna_gpt(f"Tell a shocking fact short story in 120 words about: {Short_Title}. Start with the words Did you know that")
+    Short_Story = dna_gpt(f"Tell a shocking fact short story in 250 words about: {Short_Title}. Start with the words Did you know that")
 
     st.text_area(label="Short Story", value=Short_Story)
 
