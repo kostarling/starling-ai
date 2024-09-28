@@ -110,3 +110,28 @@ async def t2i(RUNWARE_API_KEY, Prompt,height, width, numberResults):
     imageURLs = [image.imageURL for image in images]
 
     return imageURLs
+
+def gpt4o(prompt):
+    from g4f.client import Client
+
+    client = Client()
+    response = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{"role": "user", 
+                "content": prompt}]
+    )
+
+    return response.choices[0].message.content
+
+
+from runware import Runware, IImageUpscale
+async def upscaler(RUNWARE_API_KEY, image_path, upscale_factor) -> None:
+    runware = Runware(api_key=RUNWARE_API_KEY)
+    await runware.connect()
+
+    upscale_gan_payload = IImageUpscale(
+    inputImage=image_path, upscaleFactor=upscale_factor
+    )
+    upscaled_images = await runware.imageUpscale(upscaleGanPayload=upscale_gan_payload)
+    
+    return upscaled_images

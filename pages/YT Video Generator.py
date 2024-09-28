@@ -29,7 +29,7 @@ YTthumbnail_pil = Image.open(requests.get(YTthumbnail[0], stream=True).raw)
 YTthumbnail_pil.save(".temp/YTthumbnail.jpg")
 YTthumbnail_st = st.image(".temp/YTthumbnail.jpg", caption="Youtube Thumbnail")
 
-Short_Story = dna_gpt(f"Tell a shocking fact long story about: {Short_Title}. Start with the words Did you know that")
+Short_Story = gpt4o(f"Tell a shocking fact wery long story (minimum 20000 simbols) about: {Short_Title}. Start with the words Did you know that")
 
 st.text_area(label="Short Story", value=Short_Story)
 
@@ -52,8 +52,8 @@ if Generate_button:
     st.code(YTSkeywords, language="python")
 
     Prompt = dna_gpt(f"Make a good promt (max 70 tokens) for drawing fotorealistic HD 4K with epic detailed background, medieval: {Short_Story}")
-    #imagesURLs = asyncio.run(t2i(RUNWARE_API_KEY, Prompt, height=768, width=1280, numberResults=5))
-    imagesURLs = asyncio.run(t2i(RUNWARE_API_KEY, Prompt, height=512, width=512, numberResults=10))
+    imagesURLs = asyncio.run(t2i(RUNWARE_API_KEY, Prompt, height=768, width=1280, numberResults=5))
+    #imagesURLs = asyncio.run(t2i(RUNWARE_API_KEY, Prompt, height=512, width=512, numberResults=10))
     st.image(imagesURLs, width=50)
             
 

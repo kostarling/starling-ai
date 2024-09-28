@@ -16,7 +16,7 @@ Short_Title = st.text_input(label="YT Short Title", value="Thor, the mighty god 
 Generate_button = st.button('Generate YT Short Video')
 
 if Generate_button:
-    Short_Story = dna_gpt(f"Tell a shocking fact short story in 250 words about: {Short_Title}. Start with the words Did you know that")
+    Short_Story = gpt4o(f"Tell a shocking fact short story in 160 words about: {Short_Title}. Start with the words Did you know that")
 
     st.text_area(label="Short Story", value=Short_Story)
 
@@ -37,7 +37,7 @@ if Generate_button:
  
 
 
-    Prompt = dna_gpt(f"Make a good promt (max 70 tokens) for drawing fotorealistic HD 4K with epic detailed background, medieval: {Short_Story}")
+    Prompt = gpt4o(f"Make a good promt (max 70 tokens) for drawing fotorealistic HD 4K with epic detailed background, medieval: {Short_Story}")
     imagesURLs = asyncio.run(txt2img_shorts(RUNWARE_API_KEY, Prompt))
     st.image(imagesURLs, width=50)
             
