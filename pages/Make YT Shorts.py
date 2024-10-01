@@ -15,6 +15,8 @@ Short_Title = st.text_input(label="YT Short Title", value="Thor, the mighty god 
 
 Generate_button = st.button('Generate YT Short Video')
 
+
+
 if Generate_button:
     Short_Story = gpt4o(f"Tell a shocking fact short story in 160 words about: {Short_Title}. Start with the words Did you know that")
 
@@ -24,9 +26,9 @@ if Generate_button:
     st.audio(".temp/test.mp3")
 
 
-    YTStitle = dna_gpt(f"Make a good title for Youtube short video about {Short_Story}")
-    YTSdescription = dna_gpt(f"Make a good description for Youtube short video about {Short_Story}")
-    YTSkeywords = dna_gpt(f"Make a 10 keywords for Youtube short video about {Short_Story}, write only coma separated text.")
+    YTStitle = gpt4o(f"Make a good title for Youtube short video about {Short_Story}")
+    YTSdescription = gpt4o(f"Make a good description for Youtube short video about {Short_Story}")
+    YTSkeywords = gpt4o(f"Make a 10 keywords for Youtube short video about {Short_Story}, write only coma separated text.")
     "TITLE"
     st.code(YTStitle, language="python")
     "DESCRIPTION"
@@ -38,6 +40,7 @@ if Generate_button:
 
 
     Prompt = gpt4o(f"Make a good promt (max 70 tokens) for drawing fotorealistic HD 4K with epic detailed background, medieval: {Short_Story}")
+    st.code(Prompt, language="python")
     imagesURLs = asyncio.run(txt2img_shorts(RUNWARE_API_KEY, Prompt))
     st.image(imagesURLs, width=50)
             
@@ -56,4 +59,9 @@ if Generate_button:
     final_clip = concatenate_videoclips(zoom_imgs, method='compose').set_audio(final_audio_clip)
     final_clip.write_videofile(f'.temp/test.mp4', fps=24)
 
+    
     st.video('.temp/test.mp4', start_time=2)
+
+    st.download_button(label="Download Video File",
+                        data=".temp/test.mp4",
+                        file_name=YTStitle + ".mp4")

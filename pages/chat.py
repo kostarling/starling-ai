@@ -2,15 +2,11 @@ import streamlit as st
 from st_app_lib import *
 from g4f.client import Client
 
-question = st.text_input("Q")
+from youtube_transcript_api import YouTubeTranscriptApi
 
-client = Client()
-response = client.chat.completions.create(
-    model="gpt-4o",
-    messages=[{"role": "user", 
-               "content": f"Tell a shocking fact short story in 250 words about: {question}. Start with the words Did you know that"}]
-)
 
-st.markdown(response.choices[0].message.content)
+question = st.text_input("Q", value="2J4chT7jX0Q")
 
-print(response.choices[0].message.content)
+trans = gpt4o("get transcribe of this video: https://www.youtube.com/watch?v=2J4chT7jX0Q")
+
+st.markdown(trans)
