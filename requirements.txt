@@ -5,3 +5,5 @@ moviepy
 edge_tts
 numpy
 proglog
+st-paywall
+g4f
