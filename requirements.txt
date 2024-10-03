@@ -7,3 +7,4 @@ numpy
 proglog
 st-paywall
 g4f
+curl_cffi
