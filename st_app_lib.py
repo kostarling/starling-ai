@@ -135,3 +135,23 @@ async def upscaler(RUNWARE_API_KEY, image_path, upscale_factor) -> None:
     upscaled_images = await runware.imageUpscale(upscaleGanPayload=upscale_gan_payload)
     
     return upscaled_images
+
+async def i2i(RUNWARE_API_KEY, Prompt, height, width, numberResults, ):
+    runware = Runware(api_key=RUNWARE_API_KEY)
+    await runware.connect()
+
+    request_image = IImageInference(
+    positivePrompt=Prompt,
+    model="runware:100@1",
+    numberResults=numberResults,
+    negativePrompt="cloudy, rainy",
+    useCache=False,
+    height=height,
+    width=width,
+    )
+
+    images = await runware.imageInference(requestImage=request_image)
+
+    imageURLs = [image.imageURL for image in images]
+
+    return imageURLs
