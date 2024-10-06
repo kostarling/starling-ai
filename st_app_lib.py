@@ -155,3 +155,22 @@ async def i2i(RUNWARE_API_KEY, Prompt, height, width, numberResults, ):
     imageURLs = [image.imageURL for image in images]
 
     return imageURLs
+
+
+from runware import Runware, IImageBackgroundRemoval
+
+async def br(br_url):
+    runware = Runware(api_key=RUNWARE_API_KEY)
+    await runware.connect()
+
+    remove_image_background_payload = IImageBackgroundRemoval(inputImage=br_url, 
+                                                            outputFormat="PNG",
+                                                            rgba=[255, 255, 255, 0],
+                                                            alphaMatting=True)
+
+    processed_images = await runware.imageBackgroundRemoval(removeImageBackgroundPayload=remove_image_background_payload)
+    
+    for image in processed_images:
+        print(image.imageURL)
+
+    return image.imageURL
