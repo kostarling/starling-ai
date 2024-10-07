@@ -1,13 +1,19 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
-from st_paywall import add_auth
+import requests
 
-"Hello in paywall page"
+tts_text = st.text_area("TTS", "Hello world")
 
-add_auth(required=True)
+response = requests.post(
+    "https://simple-api.glif.app",
+    json={"id": "cm1ziq4ev000o3r5zzgh7ys39", "inputs": [f'{tts_text}']},
+    headers={"Authorization": "e4dd1fe277dd37fd82a0bc2be65ace75"},
+)
+print(response.content)
 
-#after authentication, the email and subscription status is stored in session state
-st.write(st.session_state.email)
-st.write(st.session_state.user_subscribed)
+import json
+data = json.loads(response.content) 
 
-st.text("hello")
+
+st.audio(data['output'])

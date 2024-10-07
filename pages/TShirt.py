@@ -41,4 +41,16 @@ tsirt_col, image_col = st.columns(2)
 
 tsirt_col.image(im1)
 image_col.image(img)
-image_col.download_button("Dowload", img, f"{prompt}.png")
+
+# Create a download button
+import io
+buffer = io.BytesIO()
+img.save(buffer, format="PNG")
+byte_image = buffer.getvalue()
+
+image_col.download_button(
+    label="Download pill image",
+    data=byte_image,
+    file_name=f"{prompt}.png",
+    mime="image/png"
+)
